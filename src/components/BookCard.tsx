@@ -3,7 +3,7 @@ import Book from '../assets/BooktoCard.png'
 
 export function BookCard() {
   return (
-    <div className="w-80 h-32 flex bg-gray-900 px-5 py-4 rounded-lg">
+    <div className="w-80 h-32 flex bg-gray-900 px-5 py-4 rounded-lg border-2 border-transparent hover:border-gray-600 hover:cursor-pointer">
       <div>
         <img src={Book} alt="" />
       </div>

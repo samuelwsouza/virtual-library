@@ -16,7 +16,7 @@ export function Home() {
         <div>
           <span className="text-gray-400">Avaliações mais recentes</span>
 
-          <div className="grid grid-cols-1 gap-4 pt-4">
+          <div className="grid grid-cols-1 gap-4 pt-4 pb-5">
             <Comment />
             <Comment />
             <Comment />
