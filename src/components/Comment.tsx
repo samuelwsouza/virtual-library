@@ -3,7 +3,7 @@ import Avatar from '../assets/Avatar.png'
 import Book from '../assets/Book.png'
 export function Comment() {
   return (
-    <div className="flex w-[608px] h-72 bg-gray-700 rounded-lg flex-col">
+    <div className="flex w-[608px] h-72 bg-gray-900 rounded-lg flex-col">
       <header className="w-full h-16 flex justify-between items-center px-6 pt-7">
         <div className="flex items-center">
           <img
@@ -18,11 +18,11 @@ export function Comment() {
         </div>
 
         <div className="flex items-center gap-1">
-          <Star color="purple" weight="fill" height={14} width={14} />
-          <Star color="purple" weight="fill" height={14} width={14} />
-          <Star color="purple" weight="fill" height={14} width={14} />
-          <Star color="purple" weight="fill" height={14} width={14} />
-          <StarHalf color="purple" weight="fill" height={14} width={14} />
+          <Star color="violet" weight="fill" height={14} width={14} />
+          <Star color="violet" weight="fill" height={14} width={14} />
+          <Star color="violet" weight="fill" height={14} width={14} />
+          <Star color="violet" weight="fill" height={14} width={14} />
+          <StarHalf color="violet" weight="fill" height={14} width={14} />
         </div>
       </header>
 
@@ -37,7 +37,9 @@ export function Comment() {
 
         <div className="w-full flex flex-col px-5 pt-2">
           <div className="mb-2">
-            <span className="block font-bold text-lg">O Hobbit</span>
+            <span className="block font-bold text-lg text-gray-100">
+              O Hobbit
+            </span>
             <span className="block text-gray-500">J.R.R Tolkien</span>
           </div>
           <p className="flex-wrap text-gray-300 text-justify text-sm pt-4">
