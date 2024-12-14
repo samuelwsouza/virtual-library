@@ -1,15 +1,15 @@
-import { Binoculars, ChartLineUp, SignIn } from 'phosphor-react';
-import { NavLink, Link } from 'react-router-dom';
-import logoSidebar from '../assets/Logo.svg';
+import { Binoculars, ChartLineUp, SignIn } from 'phosphor-react'
+import { Link, NavLink } from 'react-router-dom'
+import logoSidebar from '../assets/Logo.svg'
 
 interface ClassNameProps {
-  className: string;
+  className: string
 }
 
 export function Aside({ className }: ClassNameProps) {
   return (
     <aside
-      className={`h-full bg-gradient-to-b from-gray-900 from-10% via-slate-900 via-80% to-gray-800 to-95% text-white p-4 shadow-lg ${className} flex flex-col justify-between`}
+      className={`h-auto bg-gradient-to-b from-gray-900 from-10% via-slate-900 via-80% to-gray-800 to-95% text-white p-4 shadow-lg ${className} flex flex-col justify-between`}
     >
       <div className="flex flex-col items-center mb-8 mt-5">
         <img className="w-32" src={logoSidebar} alt="Logo" />
@@ -68,10 +68,12 @@ export function Aside({ className }: ClassNameProps) {
           to="/sign-in"
           className="flex items-center gap-2 text-cyan-500 hover:text-cyan-400"
         >
-          <span className="text-gray-200 font-semibold hover:text-gray-100">Fazer login</span>
+          <span className="text-gray-200 font-semibold hover:text-gray-100">
+            Fazer login
+          </span>
           <SignIn size={20} weight="bold" color="aqua" />
         </Link>
       </div>
     </aside>
-  );
+  )
 }
