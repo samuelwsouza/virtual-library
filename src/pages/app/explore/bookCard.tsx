@@ -24,23 +24,47 @@ export function BookCardExplore({ image, author, stars, title }: BookProps) {
         </div>
 
         <div className="flex items-center gap-1">
-          {Array.from({ length: Math.floor(stars) }, (_, i) => (
-            <Star
-              key={`star-${
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                i
-              }`}
-              weight="fill"
-              className="text-purple-500"
-            />
-          ))}
-          {stars % 1 !== 0 && (
-            <StarHalf
-              key="star-half"
-              weight="fill"
-              className="text-purple-500"
-            />
-          )}
+          {Array.from({ length: 5 }, (_, i) => {
+            if (i < Math.floor(stars)) {
+              // Estrela preenchida
+              return (
+                <Star
+                  key={`star-filled-${
+                    // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                    i
+                  }`}
+                  weight="fill"
+                  className="text-purple-500"
+                />
+              )
+              // biome-ignore lint/style/noUselessElse: <explanation>
+            } else if (i === Math.floor(stars) && stars % 1 !== 0) {
+              // Meia estrela
+              return (
+                <StarHalf
+                  key={`star-half-${
+                    // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                    i
+                  }`}
+                  weight="fill"
+                  className="text-purple-500"
+                />
+              )
+              // biome-ignore lint/style/noUselessElse: <explanation>
+            } else {
+              // Estrela vazia
+              return (
+                <Star
+                  key={`star-empty-${
+                    // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                    i
+                  }`}
+                  weight="regular"
+                  className="text-gray-500"
+                />
+              )
+            }
+          })}
         </div>
       </div>
     </div>
