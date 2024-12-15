@@ -1,4 +1,5 @@
 import { Binoculars, MagnifyingGlass } from 'phosphor-react'
+import { useState } from 'react'
 import Livro14Habitos from '../../../assets/livro_14habitosdedesenvolvedores.svg'
 import LivroRevdosBich from '../../../assets/livro_arevolucaodosbichos.svg'
 import LivroArquitetura from '../../../assets/livro_arquitetura.svg'
@@ -17,9 +18,11 @@ import LivroViagemCentro from '../../../assets/livro_viagemaocentrodaterra.svg'
 import { BookCardExplore } from './bookCard'
 import { Categories } from './categories'
 
-// componente lido, botão Tudo pré-selecionado no filtro, melhores cores, estrelas de avaliação
+// componente lido, botão Tudo pré-selecionado no filtro, melhores cores
 
 export function Explore() {
+  const [selectedCategory, setSelectedCategory] = useState('Tudo')
+
   const categories = [
     'Tudo',
     'Computação',
@@ -37,92 +40,112 @@ export function Explore() {
       title: 'A revolução dos bichos',
       author: 'George Orwell',
       stars: 4,
+      gender: 'Educação',
     },
     {
       image: Livro14Habitos,
       title: '14 Hábitos de Desenvolvedores Altamente Produtivos',
       author: 'Zeno Rocha',
       stars: 4,
+      gender: 'Computação',
     },
     {
       image: LivroOFim,
       title: 'O fim da eternidade',
       author: 'Isaac Asimov',
       stars: 4,
+      gender: 'Fantasia',
     },
     {
       image: LivroEntendendo,
       title: 'Entendendo Algoritmos',
       author: 'Aditya Y. Bhargava',
       stars: 4,
+      gender: 'Ficção Científica',
     },
     {
       image: LivroCodigo,
       title: 'Código limpo',
       author: 'Robert C. Martin',
       stars: 4,
+      gender: 'Horror',
     },
     {
       image: LivroPoderDoHabito,
       title: 'O poder do hábito',
       author: 'Charles Duhigg',
       stars: 4,
+      gender: 'HQs',
     },
     {
       image: LivroArquitetura,
       title: 'Arquitetura limpa',
       author: 'Robert C. Martin',
       stars: 4,
+      gender: 'Suspense',
     },
     {
       image: LivroHobbit,
       title: 'O Hobbit',
       author: 'J.R.R Tolkien',
       stars: 4,
+      gender: 'Suspense',
     },
     {
       image: LivrosHistorias,
       title: 'Histórias extraordinárias',
       author: 'Edgar Allan Poe',
       stars: 4,
+      gender: 'HQs',
     },
     {
       image: LivroRefat,
       title: 'Refatoração',
       author: 'Martin Fowler',
       stars: 4,
+      gender: 'Ficção Científica',
     },
     {
       image: LivroDomain,
       title: 'Domain-Driven Design',
       author: 'Eric Evans',
       stars: 4,
+      gender: 'Computação',
     },
     {
       image: LivroViagemCentro,
       title: 'Viagem ao Centro da Terra',
       author: 'Julio Verne',
       stars: 4,
+      gender: 'Fantasia',
     },
     {
       image: LivroGuia,
       title: 'O guia do mochileiro das galáxias',
       author: 'Douglas Adams',
       stars: 4,
+      gender: 'Ficção Científica',
     },
     {
       image: LivroFragmentos,
       title: 'Fragmentos do Horror',
       author: 'Junji Ito',
       stars: 4,
+      gender: 'Educação',
     },
     {
       image: LivroProgramadorPrag,
       title: 'O Programador Pragmático',
       author: 'Andrew Hunt',
       stars: 4,
+      gender: 'Educação',
     },
   ]
+
+  const filteredBooks =
+    selectedCategory === 'Tudo'
+      ? books
+      : books.filter(book => book.gender === selectedCategory)
 
   return (
     <>
@@ -144,12 +167,18 @@ export function Explore() {
 
       <div className="flex flex-wrap gap-3 mt-5">
         {categories.map(category => (
-          <Categories key={category}>{category}</Categories>
+          <Categories
+            key={category}
+            onClick={() => setSelectedCategory(category)}
+            className={`${selectedCategory === category ? 'bg-purple-100 text-purple-500' : 'bg-transparent text-purple-100'}`}
+          >
+            {category}
+          </Categories>
         ))}
       </div>
 
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] gap-4 pb-5">
-        {books.map(book => (
+      <div className="flex flex-wrap gap-4 pb-10">
+        {filteredBooks.map(book => (
           <BookCardExplore
             image={book.image}
             author={book.author}
