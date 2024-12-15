@@ -16,12 +16,20 @@ import LivroProgramadorPrag from '../../../assets/livro_oprogramadorpragmatico.s
 import LivroRefat from '../../../assets/livro_refatoracao.svg'
 import LivroViagemCentro from '../../../assets/livro_viagemaocentrodaterra.svg'
 import { BookCardExplore } from './bookCard'
+import { BookDetailsAside } from './bookDetailsAside'
 import { Categories } from './categories'
 
-// componente lido, melhores cores, skeleton (robustez e user experience)
+interface Book {
+  image: string
+  title: string
+  author: string
+  stars: number
+  gender: string
+  read?: boolean
+}
 
 export function Explore() {
-  const books = [
+  const books: Book[] = [
     {
       image: LivroRevdosBich,
       title: 'A revolução dos bichos',
@@ -35,6 +43,7 @@ export function Explore() {
       author: 'Zeno Rocha',
       stars: 4,
       gender: 'Computação',
+      read: true,
     },
     {
       image: LivroOFim,
@@ -63,6 +72,7 @@ export function Explore() {
       author: 'Charles Duhigg',
       stars: 4,
       gender: 'HQs',
+      read: true,
     },
     {
       image: LivroArquitetura,
@@ -105,6 +115,7 @@ export function Explore() {
       author: 'Julio Verne',
       stars: 4,
       gender: 'Fantasia',
+      read: true,
     },
     {
       image: LivroGuia,
@@ -131,17 +142,27 @@ export function Explore() {
 
   const [selectedCategory, setSelectedCategory] = useState('Tudo')
   const [searchTerm, setSearchTerm] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [isAsideOpen, setIsAsideOpen] = useState(false)
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null)
 
-  // Combina os filtros de categoria e busca
-  const filteredBooks = books.filter(book => {
-    const matchesCategory =
-      selectedCategory === 'Tudo' || book.gender === selectedCategory
-    const matchesSearch =
-      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.author.toLowerCase().includes(searchTerm.toLowerCase())
+  useEffect(() => {
+    // Simulando carregamento
+    const timer = setTimeout(() => setLoading(false), 1000)
+    return () => clearTimeout(timer)
+  }, [])
 
-    return matchesCategory && matchesSearch
-  })
+  useEffect(() => {
+    if (isAsideOpen) {
+      document.body.classList.add('no-scroll')
+    } else {
+      document.body.classList.remove('no-scroll')
+    }
+
+    return () => {
+      document.body.classList.remove('no-scroll')
+    }
+  }, [isAsideOpen])
 
   const categories = [
     'Tudo',
@@ -154,6 +175,20 @@ export function Explore() {
     'Suspense',
   ]
 
+  const filteredBooks = books.filter(book => {
+    const matchesCategory =
+      selectedCategory === 'Tudo' || book.gender === selectedCategory
+    const matchesSearch =
+      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchTerm.toLowerCase())
+    return matchesCategory && matchesSearch
+  })
+
+  const handleBookClick = (book: Book) => {
+    setSelectedBook(book)
+    setIsAsideOpen(true)
+  }
+
   return (
     <>
       <div className="flex items-center justify-between">
@@ -161,22 +196,17 @@ export function Explore() {
           <Binoculars color="aqua" className="w-9 h-9" />
           <span className="text-2xl font-semibold">Explorar</span>
         </div>
-
-        <div className="flex items-center relative">
+        <div className="relative">
           <input
             className="w-[433px] h-12 bg-transparent border border-gray-300 px-4 rounded outline-0 placeholder:text-gray-400"
             placeholder="Buscar livro ou autor"
-            type="text"
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
           />
-          <button
-            type="button"
-            onClick={() => {}} // Clique opcional para a lógica de busca (já está no state)
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white z-10"
-          >
-            <MagnifyingGlass color="currentColor" size={24} />
-          </button>
+          <MagnifyingGlass
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white cursor-pointer"
+            size={24}
+          />
         </div>
       </div>
 
@@ -185,10 +215,10 @@ export function Explore() {
           <Categories
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`${
+            className={`cursor-pointer px-3 py-1 rounded ${
               selectedCategory === category
-                ? 'bg-purple-100 text-purple-500'
-                : 'bg-transparent text-purple-100'
+                ? 'bg-purple-200 text-purple-800'
+                : 'bg-gray-800 text-gray-200'
             }`}
           >
             {category}
@@ -196,16 +226,34 @@ export function Explore() {
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-4 pb-10">
-        {filteredBooks.map(book => (
-          <BookCardExplore
-            image={book.image}
-            author={book.author}
-            stars={book.stars}
-            title={book.title}
-            key={book.title}
+      <div className="flex flex-wrap gap-4 mt-5 mb-8">
+        {loading
+          ? Array.from({ length: 12 }).map((_, index) => (
+              // biome-ignore lint/style/useSelfClosingElements: <explanation>
+              <div
+                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                key={index}
+                className="w-[300px] h-[280px] bg-gray-800 animate-pulse rounded-lg"
+              ></div>
+            ))
+          : filteredBooks.map(book => (
+              <BookCardExplore
+                key={book.title}
+                image={book.image}
+                author={book.author}
+                stars={book.stars}
+                title={book.title}
+                onClick={() => handleBookClick(book)}
+              />
+            ))}
+
+        {isAsideOpen && selectedBook && (
+          <BookDetailsAside
+            book={selectedBook}
+            onClose={() => setIsAsideOpen(false)}
+            isOpen={isAsideOpen}
           />
-        ))}
+        )}
       </div>
     </>
   )

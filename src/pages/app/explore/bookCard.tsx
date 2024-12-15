@@ -5,11 +5,22 @@ interface BookProps {
   title: string
   author: string
   stars: number
+  onClick: () => void
 }
 
-export function BookCardExplore({ image, author, stars, title }: BookProps) {
+export function BookCardExplore({
+  image,
+  author,
+  stars,
+  title,
+  onClick,
+}: BookProps) {
   return (
-    <div className="w-[20rem] h-48 flex bg-gray-900 rounded-lg border-2 border-transparent hover:border-gray-600 hover:cursor-pointer px-4 py-4">
+    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+    <div
+      onClick={onClick}
+      className="w-[20rem] h-48 flex bg-gray-900 rounded-lg border-2 border-transparent hover:border-gray-600 hover:cursor-pointer px-4 py-4"
+    >
       <div className="flex items-center">
         <img
           src={image}

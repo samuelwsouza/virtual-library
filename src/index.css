@@ -22,3 +22,12 @@
   overflow: hidden;
   text-overflow: ellipsis; /* Adiciona os "..." */
 }
+
+.book-details-container {
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
