@@ -1,14 +1,14 @@
 import { Binoculars, MagnifyingGlass } from 'phosphor-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Livro14Habitos from '../../../assets/livro_14habitosdedesenvolvedores.svg'
 import LivroRevdosBich from '../../../assets/livro_arevolucaodosbichos.svg'
 import LivroArquitetura from '../../../assets/livro_arquitetura.svg'
 import LivroCodigo from '../../../assets/livro_codigolimpo.svg'
 import LivroDomain from '../../../assets/livro_domain-drive.svg'
+import LivroEntendendo from '../../../assets/livro_entendendoalgoritmos.svg'
 import LivroFragmentos from '../../../assets/livro_fragmentosdohorror.svg'
 import LivrosHistorias from '../../../assets/livro_historiasextraordinarias.svg'
 import LivroOFim from '../../../assets/livro_ofimdaeternidade.svg'
-import LivroEntendendo from '../../../assets/livro_ofimdaeternidade.svg'
 import LivroGuia from '../../../assets/livro_oguiadomochileirodasgalaxias.svg'
 import LivroHobbit from '../../../assets/livro_ohobbit.svg'
 import LivroPoderDoHabito from '../../../assets/livro_opoderdohabito.svg'
@@ -18,22 +18,9 @@ import LivroViagemCentro from '../../../assets/livro_viagemaocentrodaterra.svg'
 import { BookCardExplore } from './bookCard'
 import { Categories } from './categories'
 
-// componente lido, botão Tudo pré-selecionado no filtro, melhores cores
+// componente lido, melhores cores, skeleton (robustez e user experience)
 
 export function Explore() {
-  const [selectedCategory, setSelectedCategory] = useState('Tudo')
-
-  const categories = [
-    'Tudo',
-    'Computação',
-    'Educação',
-    'Fantasia',
-    'Ficção Científica',
-    'Horror',
-    'HQs',
-    'Suspense',
-  ]
-
   const books = [
     {
       image: LivroRevdosBich,
@@ -142,10 +129,30 @@ export function Explore() {
     },
   ]
 
-  const filteredBooks =
-    selectedCategory === 'Tudo'
-      ? books
-      : books.filter(book => book.gender === selectedCategory)
+  const [selectedCategory, setSelectedCategory] = useState('Tudo')
+  const [searchTerm, setSearchTerm] = useState('')
+
+  // Combina os filtros de categoria e busca
+  const filteredBooks = books.filter(book => {
+    const matchesCategory =
+      selectedCategory === 'Tudo' || book.gender === selectedCategory
+    const matchesSearch =
+      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchTerm.toLowerCase())
+
+    return matchesCategory && matchesSearch
+  })
+
+  const categories = [
+    'Tudo',
+    'Computação',
+    'Educação',
+    'Fantasia',
+    'Ficção Científica',
+    'Horror',
+    'HQs',
+    'Suspense',
+  ]
 
   return (
     <>
@@ -155,13 +162,21 @@ export function Explore() {
           <span className="text-2xl font-semibold">Explorar</span>
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center relative">
           <input
             className="w-[433px] h-12 bg-transparent border border-gray-300 px-4 rounded outline-0 placeholder:text-gray-400"
             placeholder="Buscar livro ou autor"
             type="text"
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
           />
-          <MagnifyingGlass color="white" className="-m-7" />
+          <button
+            type="button"
+            onClick={() => {}} // Clique opcional para a lógica de busca (já está no state)
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white z-10"
+          >
+            <MagnifyingGlass color="currentColor" size={24} />
+          </button>
         </div>
       </div>
 
@@ -170,7 +185,11 @@ export function Explore() {
           <Categories
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`${selectedCategory === category ? 'bg-purple-100 text-purple-500' : 'bg-transparent text-purple-100'}`}
+            className={`${
+              selectedCategory === category
+                ? 'bg-purple-100 text-purple-500'
+                : 'bg-transparent text-purple-100'
+            }`}
           >
             {category}
           </Categories>

@@ -14,12 +14,14 @@ export function BookCardExplore({ image, author, stars, title }: BookProps) {
         <img
           src={image}
           alt={title}
-          className="max-w-24 h-36 object-cover rounded"
+          className="w-[6rem] h-[9rem] object-cover rounded"
         />
       </div>
       <div className="flex flex-col justify-between px-5">
         <div className="flex flex-col max-w-40">
-          <span className="text-base font-semibold text-gray-100">{title}</span>
+          <span className="truncate-2-lines text-base font-semibold text-gray-100">
+            {title}
+          </span>
           <span className="text-xs text-gray-400">{author}</span>
         </div>
 
