@@ -1,5 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion' // Para animações opcionais
-import { BookOpen, BookmarkSimple, X } from 'phosphor-react'
+import { BookOpen, BookmarkSimple, Star, X } from 'phosphor-react'
+import AvatarJaylon from '../../../assets/Avatar_review-2.svg'
+import AvatarJessica from '../../../assets/Avatar_review-3.svg'
+import AvatarBrandon from '../../../assets/Avatar_review.svg'
+import { UserReview } from './userReview'
 
 type Book = {
   image: string
@@ -11,7 +15,7 @@ type Book = {
 }
 
 type BookDetailsAsideProps = {
-  book: Book | null
+  book: Book | undefined
   isOpen: boolean
   onClose: () => void
   onClick?: () => void
@@ -24,6 +28,30 @@ export const BookDetailsAside = ({
 }: BookDetailsAsideProps) => {
   if (!isOpen) return null
 
+  const users = [
+    {
+      id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+      image: AvatarBrandon,
+      name: 'Brandon Botosh',
+      answer:
+        'Nec tempor nunc in egestas. Euismod nisi eleifend at et in sagittis. Penatibus id vestibulum imperdiet a at imperdiet lectus leo. Sit porta eget nec vitae sit vulputate eget',
+    },
+    {
+      id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+      image: AvatarJaylon,
+      name: 'Jaylon Franci',
+      answer:
+        'Nec tempor nunc in egestas. Euismod nisi eleifend at et in sagittis. Penatibus id vestibulum imperdiet a at imperdiet lectus leo. Sit porta eget nec vitae sit vulputate eget',
+    },
+    {
+      id: `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+      image: AvatarJessica,
+      name: 'Jessica Botosh',
+      answer:
+        'Nec tempor nunc in egestas. Euismod nisi eleifend at et in sagittis. Penatibus id vestibulum imperdiet a at imperdiet lectus leo. Sit porta eget nec vitae sit vulputate eget',
+    },
+  ]
+
   return (
     <AnimatePresence>
       <motion.aside
@@ -31,7 +59,7 @@ export const BookDetailsAside = ({
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: '100%', opacity: 0 }}
         transition={{ duration: 0.3 }}
-        className="fixed right-0 top-0 h-screen w-[40rem] bg-gray-950 text-white shadow-lg z-50 overflow-hidden"
+        className="fixed right-0 top-0 h-screen w-[40rem] bg-gray-950 text-white shadow-lg z-50 overflow-y-auto"
       >
         <button
           type="button"
@@ -60,10 +88,24 @@ export const BookDetailsAside = ({
 
                 <div className="mt-4">
                   <div className="flex flex-col">
-                    <span className="text-sm text-gray-400">
-                      {book?.stars} estrelas
+                    <div className="flex items-center space-x-1 mt-1">
+                      {/* Renderizar as estrelas */}
+                      {Array.from({ length: 5 }).map((_, index) => (
+                        <Star
+                          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                          key={index}
+                          className={`w-5 h-5 ${
+                            index < book?.stars
+                              ? 'text-yellow-500 fill-current'
+                              : 'text-gray-300'
+                          }`}
+                          weight={index < book?.stars ? 'fill' : 'regular'} // Define o estilo de preenchimento
+                        />
+                      ))}
+                    </div>
+                    <span className="text-sm text-gray-400 mt-1">
+                      3 avaliações
                     </span>
-                    <span className="text-sm text-gray-400">3 avaliações</span>
                   </div>
                 </div>
               </div>
@@ -92,6 +134,26 @@ export const BookDetailsAside = ({
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="flex flex-col mt-10">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-200">Avaliações</span>
+
+              <button type="button" className="text-purple-300 font-semibold">
+                Avaliar
+              </button>
+            </div>
+
+            {users.map(user => (
+              <UserReview
+                key={user.id}
+                id={user.id}
+                image={user.image}
+                name={user.name}
+                answer={user.answer}
+              />
+            ))}
           </div>
         </div>
       </motion.aside>

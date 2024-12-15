@@ -34,7 +34,7 @@ export function Explore() {
       image: LivroRevdosBich,
       title: 'A revolução dos bichos',
       author: 'George Orwell',
-      stars: 4,
+      stars: 5,
       gender: 'Educação',
     },
     {
