@@ -189,6 +189,8 @@ export function Explore() {
     setIsAsideOpen(true)
   }
 
+  // fazer a página login com autenticação e logo após voltar para autenticação na página explore e evitar bugs
+
   return (
     <>
       <div className="flex items-center justify-between">
