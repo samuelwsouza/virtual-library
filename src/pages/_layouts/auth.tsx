@@ -5,7 +5,6 @@ import Title from '../../assets/Logo.svg'
 export function AuthLayout() {
   return (
     <div className="flex w-full h-full bg-gray-950">
-      {/* Container da imagem */}
       <div className="flex h-auto relative">
         <img
           className="w-full max-h-[56rem] p-5 rounded-lg object-cover"
@@ -19,7 +18,6 @@ export function AuthLayout() {
         />
       </div>
 
-      {/* Container do conteúdo */}
       <div className="flex-1 flex items-center justify-center">
         <Outlet />
       </div>
