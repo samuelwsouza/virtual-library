@@ -1,4 +1,4 @@
-import { Binoculars, MagnifyingGlass } from 'phosphor-react'
+import { Binoculars } from 'phosphor-react'
 import { useEffect, useState } from 'react'
 import Livro14Habitos from '../../../assets/livro_14habitosdedesenvolvedores.svg'
 import LivroRevdosBich from '../../../assets/livro_arevolucaodosbichos.svg'
@@ -15,6 +15,7 @@ import LivroPoderDoHabito from '../../../assets/livro_opoderdohabito.svg'
 import LivroProgramadorPrag from '../../../assets/livro_oprogramadorpragmatico.svg'
 import LivroRefat from '../../../assets/livro_refatoracao.svg'
 import LivroViagemCentro from '../../../assets/livro_viagemaocentrodaterra.svg'
+import { SearchInput } from '../../../components/SearchInput'
 import { BookCardExplore } from './bookCard'
 import { BookDetailsAside } from './bookDetailsAside'
 import { Categories } from './categories'
@@ -204,18 +205,12 @@ export function Explore() {
           <Binoculars color="aqua" className="w-9 h-9" />
           <span className="text-2xl font-semibold">Explorar</span>
         </div>
-        <div className="relative">
-          <input
-            className="w-[433px] h-12 bg-transparent border border-gray-300 px-4 rounded outline-0 placeholder:text-gray-400"
-            placeholder="Buscar livro ou autor"
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-          />
-          <MagnifyingGlass
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white cursor-pointer"
-            size={24}
-          />
-        </div>
+        <SearchInput
+          value={searchTerm}
+          onChange={setSearchTerm}
+          placeholder="Buscar livro ou autor"
+          className="w-[433px]"
+        />
       </div>
 
       <div className="flex flex-wrap gap-3 mt-5">
