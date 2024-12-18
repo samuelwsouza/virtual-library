@@ -153,14 +153,20 @@ export function Explore() {
   }, [])
 
   useEffect(() => {
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth
+
     if (isAsideOpen) {
       document.body.classList.add('no-scroll')
+      document.body.style.paddingRight = `${scrollBarWidth}px`
     } else {
       document.body.classList.remove('no-scroll')
+      document.body.style.paddingRight = '0px'
     }
 
     return () => {
       document.body.classList.remove('no-scroll')
+      document.body.style.paddingRight = '0px'
     }
   }, [isAsideOpen])
 
