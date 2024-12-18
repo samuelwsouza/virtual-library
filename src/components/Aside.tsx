@@ -1,7 +1,8 @@
-import { Binoculars, ChartLineUp, SignIn, SignOut } from 'phosphor-react'
+import { Binoculars, ChartLineUp, SignIn, SignOut, User } from 'phosphor-react'
 import { useEffect, useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import logoSidebar from '../assets/Logo.svg'
+import DefaultProfile from '../assets/defaultphoto.png'
 
 interface ClassNameProps {
   className: string
@@ -17,7 +18,6 @@ export function Aside({ className }: ClassNameProps) {
   const [user, setUser] = useState<UserData | null>(null)
   const [loginType, setLoginType] = useState<string>('')
 
-  // Carregar dados do LocalStorage
   useEffect(() => {
     const storedLoginType = localStorage.getItem('loginType')
     const storedUser = localStorage.getItem('user')
@@ -29,7 +29,7 @@ export function Aside({ className }: ClassNameProps) {
         setUser(JSON.parse(storedUser))
       }
     } else {
-      navigate('/sign-in') // Redireciona para login se não estiver autenticado
+      navigate('/sign-in')
     }
   }, [navigate])
 
@@ -37,7 +37,7 @@ export function Aside({ className }: ClassNameProps) {
   const handleLogout = () => {
     localStorage.removeItem('user')
     localStorage.removeItem('loginType')
-    navigate('/sign-in') // Redireciona para login
+    navigate('/sign-in')
   }
 
   return (
@@ -90,16 +90,38 @@ export function Aside({ className }: ClassNameProps) {
             </>
           )}
         </NavLink>
+
+        {loginType === 'google' && user && (
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              `flex items-center gap-3 w-full px-4 py-2 rounded-md relative ${
+                isActive ? 'text-gray-100 font-semibold' : 'text-gray-400'
+              }`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <div
+                  className={`absolute left-0 h-7 w-1 bg-gradient-to-b from-emerald-300 to-purple-500 rounded-md transition-transform duration-200 ${
+                    isActive ? 'scale-y-100' : 'scale-y-0'
+                  }`}
+                />
+                <User size={20} weight="bold" />
+                <span>Profile</span>
+              </>
+            )}
+          </NavLink>
+        )}
       </nav>
 
-      {/* Seção de Login / Logout */}
       <div className="mt-auto ml-14">
         {loginType === 'google' && user ? (
           <div className="flex items-center gap-3 -ml-4">
             <img
               src={user.picture}
               onError={e => {
-                e.currentTarget.src = '/default-profile.png' // Imagem padrão
+                e.currentTarget.src = DefaultProfile
               }}
               className="rounded-[999px] w-8 h-8 border border-purple-100"
               alt="Foto do perfil"
@@ -115,15 +137,16 @@ export function Aside({ className }: ClassNameProps) {
             </button>
           </div>
         ) : loginType === 'guest' ? (
-          <Link
-            to="/sign-in"
-            className="flex items-center gap-2 text-cyan-500 hover:text-cyan-400"
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="flex items-center gap-2 text-cyan-500"
           >
-            <span className="text-gray-200 font-semibold hover:text-gray-100">
+            <span className="text-gray-200 font-semibold hover:text-gray-400 transition-all">
               Fazer login
             </span>
             <SignIn size={20} weight="bold" color="aqua" />
-          </Link>
+          </button>
         ) : (
           <span className="mt-5 text-lg">Carregando...</span>
         )}
