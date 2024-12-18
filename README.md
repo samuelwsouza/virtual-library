@@ -1,3 +1,29 @@
+# Main features, ui
+
+SignIn.tsx
+- Login with GitHub
+
+Aside.tsx
+- Profile option when logged
+
+Home.tsx
+- Skeleton
+- More content to fill any empty space
+- Better colors and visual in general
+
+Explore.tsx
+- Modal to login (google or github) when user try to review a book as a visitant
+- Better login button
+- Better visual as in home
+- Review book and give stars
+- More books
+- Review any book when logged
+- Book column moving when 'Tudo' to another filter gender or opening Book details
+- Component 'Lido' in the future versions of Bookwise
+
+Profile.tsx
+- Create a profile page
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
