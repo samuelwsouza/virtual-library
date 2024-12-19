@@ -15,7 +15,7 @@ type Book = {
 }
 
 type BookDetailsAsideProps = {
-  book: Book | undefined
+  book: Book
   isOpen: boolean
   onClose: () => void
   onClick?: () => void
@@ -58,7 +58,7 @@ export const BookDetailsAside = ({
         initial={{ x: '100%', opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: '100%', opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.2 }}
         className="fixed right-0 top-0 h-screen w-[40rem] bg-gray-950 text-white shadow-lg z-50 overflow-y-auto"
       >
         <button
