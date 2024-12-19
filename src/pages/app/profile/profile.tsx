@@ -1,5 +1,15 @@
-import { BookOpen, BookmarkSimple, Books, User, UserList } from 'phosphor-react'
+import {
+  BookOpen,
+  BookmarkSimple,
+  Books,
+  Star,
+  User,
+  UserList,
+} from 'phosphor-react'
 import { useEffect, useState } from 'react'
+import LivroEntendendo from '../../../assets/livro_entendendoalgoritmos.svg'
+import LivroFragmentos from '../../../assets/livro_fragmentosdohorror.svg'
+import LivroExtraordinarias from '../../../assets/livro_historiasextraordinarias.svg'
 import { SearchInput } from '../../../components/SearchInput'
 
 interface UserData {
@@ -41,9 +51,122 @@ export function Profile() {
         />
 
         <div className="space-y-6">
+          <span className="text-sm text-gray-300">Há 2 dias</span>
           <div className="w-[700px] bg-gray-800 p-4 rounded-lg text-white">
-            <h3 className="font-semibold text-lg">Entendendo Algoritmos</h3>
-            <p className="text-sm text-gray-400">Aditya Bhargava</p>
+            <div className="flex">
+              <img
+                src={LivroEntendendo}
+                alt="Livro chamado Entendendo Algoritmos"
+              />
+              <div className="flex flex-col justify-between">
+                <div className="flex flex-col gap-1 ml-5">
+                  <h3 className="font-semibold text-lg">
+                    Entendendo Algoritmos
+                  </h3>
+                  <span className="text-sm text-gray-400">Aditya Bhargava</span>
+                </div>
+
+                <div className="flex items-start gap-1 ml-5">
+                  <Star weight="fill" color="purple" />
+                  <Star weight="fill" color="purple" />
+                  <Star weight="fill" color="purple" />
+                  <Star weight="fill" color="purple" />
+                  <Star />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <span className="text-sm text-gray-300">
+                Tristique massa sed enim lacinia odio. Congue ut faucibus nunc
+                vitae non. Nam feugiat vel morbi viverra vitae mi. Vitae
+                fringilla ut et suspendisse enim suspendisse vitae. Leo non eget
+                lacus sollicitudin tristique pretium quam. Mollis et luctus amet
+                sed convallis varius massa sagittis. Proin sed proin at leo quis
+                ac sem. Nam donec accumsan curabitur amet tortor quam sit.
+                Bibendum enim sit dui lorem urna amet elit rhoncus ut. Aliquet
+                euismod vitae ut turpis. Aliquam amet integer pellentesque.
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <span className="text-sm text-gray-300">Há 5 dias</span>
+          </div>
+          <div className="w-[700px] bg-gray-800 p-4 rounded-lg text-white">
+            <div className="flex">
+              <img
+                src={LivroFragmentos}
+                alt="Livro chamado Fragmentos do Horror"
+              />
+              <div className="flex flex-col justify-between">
+                <div className="flex flex-col gap-1 ml-5">
+                  <h3 className="font-semibold text-lg">
+                    Fragmentos do Horror
+                  </h3>
+                  <span className="text-sm text-gray-400">Junti Ito</span>
+                </div>
+
+                <div className="flex items-start gap-1 ml-5">
+                  <Star weight="fill" color="purple" />
+                  <Star weight="fill" color="purple" />
+                  <Star weight="fill" color="purple" />
+                  <Star weight="fill" color="purple" />
+                  <Star />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <span className="text-sm text-gray-300">
+                Ornare amet scelerisque eget sit in donec dui. Tempus eget
+                porttitor hendrerit eros viverra. Sit eget ipsum purus morbi
+                curabitur cras gravida adipiscing dictum. Dui duis ut auctor
+                dolor et mattis ultrices. Convallis quis in tortor pretium
+                hendrerit sed. Vel et nibh sodales blandit egestas a quis
+                bibendum.
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <span className="text-sm text-gray-300">Há 7 dias</span>
+          </div>
+          <div className="w-[700px] bg-gray-800 p-4 rounded-lg text-white">
+            <div className="flex">
+              <img
+                src={LivroExtraordinarias}
+                alt="Livro chamado Fragmentos do Horror"
+              />
+              <div className="flex flex-col justify-between">
+                <div className="flex flex-col gap-1 ml-5">
+                  <h3 className="font-semibold text-lg">
+                    Histórias extraordinárias
+                  </h3>
+                  <span className="text-sm text-gray-400">Edgar Allan Poe</span>
+                </div>
+
+                <div className="flex items-start gap-1 ml-5">
+                  <Star weight="fill" color="purple" />
+                  <Star weight="fill" color="purple" />
+                  <Star weight="fill" color="purple" />
+                  <Star weight="fill" color="purple" />
+                  <Star />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <span className="text-sm text-gray-300">
+                Nunc iaculis adipiscing ut sem a ut risus vel facilisi. Posuere
+                pharetra sollicitudin sem velit sodales. Diam semper arcu nulla
+                quis sapien nibh. Ut eget orci ipsum sed quis cras morbi
+                placerat. Nec non at arcu adipiscing. Aenean cras ultrices
+                cursus congue. Diam quis est proin id facilisi. Ac cras iaculis
+                quam lectus eros orci semper fames amet. Id consequat purus
+                faucibus pulvinar nisl molestie semper.
+              </span>
+            </div>
           </div>
         </div>
       </div>
