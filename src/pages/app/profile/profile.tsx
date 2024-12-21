@@ -20,7 +20,7 @@ interface UserData {
 export function Profile() {
   const [searchTerm, setSearchTerm] = useState('')
   const [user, setUser] = useState<UserData | null>(null)
-  const [loginType, setLoginType] = useState<string>('')
+  const [_, setLoginType] = useState<string>('')
 
   useEffect(() => {
     const storedLoginType = localStorage.getItem('loginType')
@@ -67,10 +67,10 @@ export function Profile() {
                 </div>
 
                 <div className="flex items-start gap-1 ml-5">
-                  <Star weight="fill" color="purple" />
-                  <Star weight="fill" color="purple" />
-                  <Star weight="fill" color="purple" />
-                  <Star weight="fill" color="purple" />
+                  <Star weight="fill" color="white" />
+                  <Star weight="fill" color="white" />
+                  <Star weight="fill" color="white" />
+                  <Star weight="fill" color="white" />
                   <Star />
                 </div>
               </div>
@@ -108,10 +108,10 @@ export function Profile() {
                 </div>
 
                 <div className="flex items-start gap-1 ml-5">
-                  <Star weight="fill" color="purple" />
-                  <Star weight="fill" color="purple" />
-                  <Star weight="fill" color="purple" />
-                  <Star weight="fill" color="purple" />
+                  <Star weight="fill" color="white" />
+                  <Star weight="fill" color="white" />
+                  <Star weight="fill" color="white" />
+                  <Star weight="fill" color="white" />
                   <Star />
                 </div>
               </div>
@@ -147,10 +147,10 @@ export function Profile() {
                 </div>
 
                 <div className="flex items-start gap-1 ml-5">
-                  <Star weight="fill" color="purple" />
-                  <Star weight="fill" color="purple" />
-                  <Star weight="fill" color="purple" />
-                  <Star weight="fill" color="purple" />
+                  <Star weight="fill" color="white" />
+                  <Star weight="fill" color="white" />
+                  <Star weight="fill" color="white" />
+                  <Star weight="fill" color="white" />
                   <Star />
                 </div>
               </div>
