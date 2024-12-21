@@ -4,10 +4,10 @@ import Title from '../../assets/Logo.svg'
 
 export function AuthLayout() {
   return (
-    <div className="flex w-full h-full bg-gray-950">
+    <div className="flex w-full h-screen bg-gray-950">
       <div className="flex h-auto relative">
         <img
-          className="w-full max-h-[56rem] p-5 rounded-lg object-cover"
+          className="w-full max-h-auto p-5 rounded-lg object-cover"
           src={BackgroundImage}
           alt="Marca BookWise"
         />

@@ -40,7 +40,7 @@ export function Comment() {
             <span className="block font-bold text-lg text-gray-100">
               O Hobbit
             </span>
-            <span className="block text-gray-500">J.R.R Tolkien</span>
+            <span className="text-sm block text-gray-500">J.R.R Tolkien</span>
           </div>
           <p className="flex-wrap text-gray-300 text-justify text-sm pt-4">
             Semper et sapien proin vitae nisi. Feugiat neque integer donec et

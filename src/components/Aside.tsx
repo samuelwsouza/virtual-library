@@ -108,7 +108,7 @@ export function Aside({ className }: ClassNameProps) {
                   }`}
                 />
                 <User size={20} weight="bold" />
-                <span>Profile</span>
+                <span>Perfil</span>
               </>
             )}
           </NavLink>
