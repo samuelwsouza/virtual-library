@@ -29,8 +29,8 @@ export function Home() {
         <div className="flex justify-between">
           <span className="text-sm text-gray-100">Livros populares</span>
           <Link to="/explore" className="flex items-center gap-2">
-            <span className="text-purple-700 font-semibold">Ver todos</span>{' '}
-            <CaretRight color="violet" />
+            <span className="text-purple-200 font-semibold">Ver todos</span>{' '}
+            <CaretRight color="purple" />
           </Link>
         </div>
 

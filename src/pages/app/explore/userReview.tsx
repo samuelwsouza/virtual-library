@@ -13,7 +13,7 @@ export function UserReview({ image, answer, name, id }: UserProps) {
       <header className="flex items-start justify-between">
         <div className="flex items-center">
           <img
-            className="rounded-[999px] object-cover border border-purple-100"
+            className="rounded-[999px] w-10 h-10 object-cover border border-purple-100"
             src={image}
             alt=""
           />
