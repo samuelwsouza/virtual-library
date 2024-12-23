@@ -8,37 +8,48 @@ interface ClassNameProps {
   className: string
 }
 
-interface UserData {
-  name?: string
-  picture?: string
-}
-
 export function Aside({ className }: ClassNameProps) {
   const navigate = useNavigate()
-  const [user, setUser] = useState<UserData | null>(null)
-  const [loginType, setLoginType] = useState<string>('')
 
-  useEffect(() => {
-    const storedLoginType = localStorage.getItem('loginType')
-    const storedUser = localStorage.getItem('user')
+  // Estado inicial com valores do localStorage
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('user')
+    return savedUser ? JSON.parse(savedUser) : null
+  })
+  const [loginType, setLoginType] = useState<'google' | 'guest'>(() => {
+    const savedLoginType = localStorage.getItem('loginType')
+    return (savedLoginType as 'google' | 'guest') || 'guest'
+  })
 
-    if (storedLoginType) {
-      setLoginType(storedLoginType)
+  const isLoggedIn = loginType === 'google' && user
 
-      if (storedLoginType === 'google' && storedUser) {
-        setUser(JSON.parse(storedUser))
-      }
-    } else {
-      navigate('/sign-in')
-    }
-  }, [navigate])
-
-  // Função de logout
+  // Função para logout
   const handleLogout = () => {
     localStorage.removeItem('user')
     localStorage.removeItem('loginType')
+    setUser(null)
+    setLoginType('guest')
     navigate('/sign-in')
   }
+
+  // Atualizar estado quando o localStorage mudar
+  useEffect(() => {
+    const handleUserLogin = () => {
+      const savedUser = localStorage.getItem('user')
+      const savedLoginType = localStorage.getItem('loginType')
+
+      setUser(savedUser ? JSON.parse(savedUser) : null)
+      setLoginType((savedLoginType as 'google' | 'guest') || 'guest')
+    }
+
+    // Escuta o evento personalizado
+    window.addEventListener('user-login', handleUserLogin)
+
+    // Limpa o evento ao desmontar
+    return () => {
+      window.removeEventListener('user-login', handleUserLogin)
+    }
+  }, [])
 
   return (
     <aside
@@ -91,7 +102,7 @@ export function Aside({ className }: ClassNameProps) {
           )}
         </NavLink>
 
-        {loginType === 'google' && user && (
+        {isLoggedIn && (
           <NavLink
             to="/profile"
             className={({ isActive }) =>
@@ -116,17 +127,17 @@ export function Aside({ className }: ClassNameProps) {
       </nav>
 
       <div className="mt-auto ml-14">
-        {loginType === 'google' && user ? (
+        {isLoggedIn ? (
           <div className="flex items-center gap-3 -ml-4">
             <img
-              src={user.picture}
+              src={user?.picture || DefaultProfile}
               onError={e => {
                 e.currentTarget.src = DefaultProfile
               }}
               className="rounded-[999px] w-8 h-8 border border-purple-100"
               alt="Foto do perfil"
             />
-            <span className="text-gray-200 font-semibold">{user.name}</span>
+            <span className="text-gray-200 font-semibold">{user?.name}</span>
             <button
               type="button"
               onClick={handleLogout}
@@ -136,10 +147,10 @@ export function Aside({ className }: ClassNameProps) {
               <SignOut className="w-6 h-6" color="red" />
             </button>
           </div>
-        ) : loginType === 'guest' ? (
+        ) : (
           <button
             type="button"
-            onClick={handleLogout}
+            onClick={() => navigate('/sign-in')}
             className="flex items-center gap-2 text-cyan-500"
           >
             <span className="text-gray-200 font-semibold hover:text-gray-400 transition-all">
@@ -147,8 +158,6 @@ export function Aside({ className }: ClassNameProps) {
             </span>
             <SignIn size={20} weight="bold" color="aqua" />
           </button>
-        ) : (
-          <span className="mt-5 text-lg">Carregando...</span>
         )}
       </div>
     </aside>

@@ -2,7 +2,9 @@ import { useGoogleLogin } from '@react-oauth/google'
 import axios from 'axios'
 import { BookOpen, BookmarkSimple, Star, X } from 'phosphor-react'
 import { useEffect, useState } from 'react'
+import ReactDOM from 'react-dom'
 import AvatarBrandon from '../../../assets/Avatar_review.svg'
+import GoogleIcon from '../../../assets/google-icon.svg'
 import { UserReview } from './userReview'
 
 type Book = {
@@ -46,22 +48,12 @@ export const BookDetailsAside = ({
       setIsLoggedIn(true)
     }
 
-    // Simulando carregamento
     const timer = setTimeout(() => {
       setIsLoading(false)
     }, 1000)
 
     return () => clearTimeout(timer)
   }, [])
-
-  const calculateRelativeTime = (date: Date) => {
-    const now = new Date()
-    const diff = Math.floor((now.getTime() - date.getTime()) / 1000) // em segundos
-    if (diff < 60) return `${diff} segundos atrás`
-    if (diff < 3600) return `${Math.floor(diff / 60)} minutos atrás`
-    if (diff < 86400) return `${Math.floor(diff / 3600)} horas atrás`
-    return `${Math.floor(diff / 86400)} dias atrás`
-  }
 
   const googleLogin = useGoogleLogin({
     onSuccess: async tokenResponse => {
@@ -81,8 +73,12 @@ export const BookDetailsAside = ({
         }
 
         localStorage.setItem('user', JSON.stringify(user))
+        localStorage.setItem('loginType', 'google')
         setIsLoggedIn(true)
         setShowAuthModal(false)
+
+        const event = new Event('user-login')
+        window.dispatchEvent(event)
       } catch (error) {
         console.error('Erro ao buscar dados do Google:', error)
       }
@@ -91,7 +87,11 @@ export const BookDetailsAside = ({
   })
 
   const handleReviewClick = () => {
-    setShowReviewForm(true)
+    if (isLoggedIn) {
+      setShowReviewForm(true)
+    } else {
+      setShowAuthModal(true)
+    }
   }
 
   const handleAddReview = (newReview: string, stars: number) => {
@@ -115,16 +115,18 @@ export const BookDetailsAside = ({
 
   return (
     <aside
-      className={`fixed right-0 top-0 h-screen w-[40rem] bg-gray-950 text-white shadow-lg z-50 overflow-y-auto transition-transform duration-300 ${
+      className={`fixed right-0 top-0 h-screen w-[40rem] bg-gray-950 text-white shadow-lg z-50 overflow-y-auto transition-transform duration-400 ${
         isOpen ? 'translate-x-0' : 'translate-x-full'
       }`}
     >
       {isLoading ? (
         <div className="p-6 mt-14 animate-pulse">
-          <div className="w-full h-64 bg-gray-800 rounded-lg" />
-          <div className="mt-4 h-6 w-3/4 bg-gray-800 rounded" />
-          <div className="mt-2 h-6 w-1/2 bg-gray-800 rounded" />
-          <div className="mt-6 h-16 w-full bg-gray-800 rounded" />
+          <div className="w-full h-96 bg-gray-800 rounded-lg" />
+          <div className="mt-10 h-6 w-32 bg-gray-800 rounded" />
+          <div className="mt-14 h-32 w-full bg-gray-800 rounded" />
+          <div className="mt-6 h-32 w-full bg-gray-800 rounded" />
+          <div className="mt-6 h-32 w-full bg-gray-800 rounded" />
+          <div className="mt-6 h-32 w-full bg-gray-800 rounded" />
         </div>
       ) : (
         <>
@@ -135,6 +137,56 @@ export const BookDetailsAside = ({
           >
             <X size={24} />
           </button>
+          {showAuthModal &&
+            ReactDOM.createPortal(
+              <div className="fixed inset-0 flex items-center justify-center z-50">
+                {/* Fundo escuro não clicável */}
+                <div className="absolute inset-0 bg-black bg-opacity-50 pointer-events-none" />
+
+                {/* Conteúdo do modal */}
+                <div className="relative bg-gray-900 text-white rounded-lg p-6 w-[24rem] shadow-lg z-10">
+                  <h2 className="text-xl font-semibold mb-4 text-center">
+                    Faça login para avaliação
+                  </h2>
+                  <p className="text-gray-300 text-sm mb-6 text-center">
+                    Para continuar, entre com uma das opções abaixo:
+                  </p>
+                  <div className="flex flex-col gap-4">
+                    {/* Botão de login com Google */}
+                    <button
+                      type="button"
+                      onClick={() => googleLogin()}
+                      className="flex items-center justify-center gap-2 bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-md"
+                    >
+                      <img src={GoogleIcon} alt="Google" className="w-5 h-5" />
+                      Continuar com Google
+                    </button>
+                    {/* Botão de login estilizado com GitHub */}
+                    <button
+                      type="button"
+                      className="flex items-center justify-center gap-2 bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-md"
+                    >
+                      <img
+                        src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                        alt="GitHub"
+                        className="w-5 h-5"
+                      />
+                      Continuar com GitHub
+                    </button>
+                  </div>
+                  {/* Botão de cancelar */}
+                  <button
+                    type="button"
+                    onClick={() => setShowAuthModal(false)}
+                    className="mt-4 text-gray-400 hover:text-white text-sm text-center w-full"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>,
+              document.body // Renderiza no topo do DOM
+            )}
+
           <div className="p-6 mt-14">
             <div className="flex flex-col w-full h-[28rem] bg-gray-900 rounded-xl pt-6 px-8 pb-4">
               <div className="flex flex-1 max-h-[20rem] pb-10">
@@ -194,15 +246,13 @@ export const BookDetailsAside = ({
                 <h2 className="text-lg font-semibold text-gray-100">
                   Avaliações
                 </h2>
-                {isLoggedIn && !showReviewForm && (
-                  <button
-                    type="button"
-                    onClick={handleReviewClick}
-                    className="text-sm text-blue-400 hover:underline"
-                  >
-                    Avaliar
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={handleReviewClick}
+                  className="text-sm text-blue-400 hover:underline"
+                >
+                  Avaliar
+                </button>
               </div>
               {showReviewForm && (
                 <div className="mt-4">
