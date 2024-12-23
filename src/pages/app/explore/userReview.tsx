@@ -7,9 +7,22 @@ interface UserProps {
   answer: string
 }
 
+const calculateRelativeTime = (date: Date) => {
+  // use this
+  const now = new Date()
+  const diff = Math.floor((now.getTime() - date.getTime()) / 1000) // em segundos
+  if (diff < 60) return `${diff} segundos atrás`
+  if (diff < 3600) return `${Math.floor(diff / 60)} minutos atrás`
+  if (diff < 86400) return `${Math.floor(diff / 3600)} horas atrás`
+  return `${Math.floor(diff / 86400)} dias atrás`
+}
+
 export function UserReview({ image, answer, name, id }: UserProps) {
   return (
-    <div id={id} className="w-full h-48 bg-gray-900 rounded-lg mt-4 p-6">
+    <div
+      id={id}
+      className="w-full min-h-36 h-auto bg-gray-900 rounded-lg mt-4 py-6 px-5"
+    >
       <header className="flex items-start justify-between">
         <div className="flex items-center">
           <img
